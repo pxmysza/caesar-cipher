@@ -46,38 +46,52 @@ def rot_n(text: str, cipher: int):
         return rot_47(text)
 
 
-def display_menu():
-    print("1. Get files from directory\n2. Save to file\n3. Read from file")
-
-def worker(option):
-    if option == 1:
-        print(read_files_from_dir())
-    if option == 3:
-        print(read_file_content(read_files_from_dir()))
-
-def main():
-
-    display_menu()
-    option = int(input("Select action: "))
-    # TODO option 2 - save ciphertext to file
-
-    worker(option)
-
+def save_to_file():
     cipher_types = {
         13: "rot13",
         47: "rot47"
     }
 
-    my_str = input("enter text to cipher: ")
-    n = int(input("Cipher suite: "))
+    filename = input("Enter file name: ")
+    if filename in [file for file in os.listdir(JSON_PATH) if file.endswith(".json")]:
+        print("File already exists")
+        return
+    text = input("Enter plain text: ")
+    cipher = int(input("Enter cipher type-13 or 47: "))
 
-    texts= {
-        "cipher type": cipher_types[n],
-        "plain": my_str,
-        "cipher text": rot_n(my_str, n)
+    json_text = {
+        "cipher type": cipher_types[cipher],
+        "cipher text": rot_n(text, cipher),
+        "status": "decrypted"
     }
-    json_object = json.dumps(texts, indent=4)
-    print(json_object)
+    filename = filename + ".json"
+
+    with open(JSON_PATH + "/" + filename, 'w') as f:
+        json.dump(json_text, f, indent=4)
+
+
+def display_menu():
+    print("1. Get files from directory\n2. Save to file\n3. Read from file")
+
+
+def worker(option):
+    if option == 1:
+        print(read_files_from_dir())
+    if option == 2:
+        save_to_file()
+    if option == 3:
+        print("Available files: ")
+        print(read_files_from_dir())
+        print(read_file_content(read_files_from_dir()))
+
+
+def main():
+    display_menu()
+    option = int(input("Select action: "))
+    worker(option)
+
+    #TODO read ciphertext/plaintext from file and decrypt/encrypt it
+
 
 if __name__ == "__main__":
     main()

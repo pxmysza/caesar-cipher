@@ -1,7 +1,4 @@
 {
-    "13": "rot13",
-    "47": {
-        "plain": "ala ma kota",
-        "cipher": "2=2 >2 <@E2"
-    }
+    "cipher type": "rot13",
+    "cipher text": "nfqs"
 }
