@@ -3,6 +3,7 @@ import string
 import json
 import os
 JSON_PATH = "functionality/text_files"
+from typing import Optional
 
 
 def read_files_from_dir() -> dict:
@@ -29,7 +30,7 @@ def read_ciphertext(filename: str) -> tuple:
     with open(JSON_PATH + "/" + filename) as json_file:
         data = json.load(json_file)
         cipher_mode = data["cipher_type"]
-        cipher_text = data["cipher_text"]
+        cipher_text = data["text"]
         cipher_num = 13 if cipher_mode == "rot13" else 47
         return rot_n(cipher_text, cipher_num), cipher_num
 
@@ -55,17 +56,23 @@ def rot_n(text: str, cipher: int):
         return rot_47(text)
 
 
-def save_to_file(filename: str, plain_text: str, cipher: int):
+def save_to_file(filename: str, plain_text: str, cipher: int, status: [Optional] = "encrypted"):
     cipher_types = {
         13: "rot13",
         47: "rot47"
     }
-
-    json_text = {
-        "cipher_type": cipher_types[cipher],
-        "cipher_text": rot_n(plain_text, cipher),
-        "status": "encrypted"
-    }
+    if status == "encrypted":
+        json_text = {
+            "cipher_type": cipher_types[cipher],
+            "text": rot_n(plain_text, cipher),
+            "status": status
+        }
+    else:
+        json_text = {
+            "cipher_type": None,
+            "text": rot_n(plain_text, cipher),
+            "status": status
+        }
 
     with open(JSON_PATH + "/" + filename, 'w') as f:
         json.dump(json_text, f, indent=4)
@@ -111,6 +118,8 @@ def manager(option):
         print(read_files_from_dir())
         print(read_directory_content(read_files_from_dir()))
 
+def decrypt_file():
+    pass
 
 def main():
     display_menu()
