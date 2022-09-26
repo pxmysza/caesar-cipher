@@ -17,12 +17,21 @@ def read_files_from_dir() -> dict:
     return files_dict
 
 
-def read_file_content(files_dict: dict) -> None:
+def read_directory_content(files_dict: dict) -> None:
     file_number = int(input("Enter file number: "))
     file_name = files_dict.get(file_number)
     with open(JSON_PATH + "/" + file_name) as json_file:
         data = json.load(json_file)
         return data
+
+
+def read_ciphertext(filename: str) -> tuple:
+    with open(JSON_PATH + "/" + filename) as json_file:
+        data = json.load(json_file)
+        cipher_mode = data["cipher_type"]
+        cipher_text = data["cipher_text"]
+        cipher_num = 13 if cipher_mode == "rot13" else 47
+        return rot_n(cipher_text, cipher_num), cipher_num
 
 
 def rot_13(text: str) -> str:
@@ -46,49 +55,67 @@ def rot_n(text: str, cipher: int):
         return rot_47(text)
 
 
-def save_to_file():
+def save_to_file(filename: str, plain_text: str, cipher: int):
     cipher_types = {
         13: "rot13",
         47: "rot47"
     }
 
-    filename = input("Enter file name: ")
-    if filename in [file for file in os.listdir(JSON_PATH) if file.endswith(".json")]:
-        print("File already exists")
-        return
-    text = input("Enter plain text: ")
-    cipher = int(input("Enter cipher type-13 or 47: "))
-
     json_text = {
-        "cipher type": cipher_types[cipher],
-        "cipher text": rot_n(text, cipher),
-        "status": "decrypted"
+        "cipher_type": cipher_types[cipher],
+        "cipher_text": rot_n(plain_text, cipher),
+        "status": "encrypted"
     }
-    filename = filename + ".json"
 
     with open(JSON_PATH + "/" + filename, 'w') as f:
         json.dump(json_text, f, indent=4)
+
+
+def add_new_entry():
+    filename = input("Enter file name: ")
+    filename = filename + ".json"
+    if filename in [file for file in os.listdir(JSON_PATH) if file.endswith(".json")]:
+        reply = input("File already exists, do you want to modify it or overwrite? (m/o)? ")
+        plain_text, cipher = read_ciphertext(filename)
+        while True:
+            if reply.lower() == "m":
+                # read text from file, decipher, display and let user add lines
+                print(plain_text)
+                text = input("Enter plain text to append to existing text: ")
+                save_to_file(filename, plain_text + text, cipher)
+                break
+            elif reply.lower() == "o":
+                text = input("Enter plain text: ")
+                save_to_file(filename, text, cipher)
+                # Do nothing, return to menu
+                break
+            else:
+                reply = input("Incorrect choice, try again: ")
+    else:
+        text = input("Enter plain text: ")
+        cipher = int(input("Enter cipher type-13 or 47: "))
+        save_to_file(filename, text, cipher)
 
 
 def display_menu():
     print("1. Get files from directory\n2. Save to file\n3. Read from file")
 
 
-def worker(option):
+def manager(option):
     if option == 1:
         print(read_files_from_dir())
     if option == 2:
-        save_to_file()
+        add_new_entry()
     if option == 3:
         print("Available files: ")
         print(read_files_from_dir())
-        print(read_file_content(read_files_from_dir()))
+        print(read_directory_content(read_files_from_dir()))
 
 
 def main():
     display_menu()
     option = int(input("Select action: "))
-    worker(option)
+    manager(option)
 
     #TODO read ciphertext/plaintext from file and decrypt/encrypt it
 
