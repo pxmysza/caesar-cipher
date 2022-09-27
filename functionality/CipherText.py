@@ -44,7 +44,7 @@ class TextManager:
             "word": self.__rot_n(plaintext, cipher_mode),
             "status": "decrypted"
         }
-        return json.dumps(payload)
+        return json.dumps(payload, indent=4)
 
     def __rot_n(self, text: str, cipher: int):
         if cipher == 13:
@@ -100,4 +100,4 @@ class TextManager:
 
     def __save_to_file(self, text_json, filename: str) -> None:
         with open(JSON_PATH + "/" + filename, 'w') as f:
-            json.dump(text_json, f, indent=4)
+            f.write(text_json)
