@@ -4,6 +4,7 @@ import json
 import os
 JSON_PATH = "functionality/text_files"
 from typing import Optional
+from functionality.CipherText import CipherText, TextManager
 
 
 def read_files_from_dir() -> dict:
@@ -69,7 +70,7 @@ def save_to_file(filename: str, plain_text: str, cipher: int, status: [Optional]
         }
     else:
         json_text = {
-            "cipher_type": None,
+            "cipher_type": "plain_text",
             "text": rot_n(plain_text, cipher),
             "status": status
         }
@@ -108,23 +109,27 @@ def display_menu():
     print("1. Get files from directory\n2. Save to file\n3. Read from file")
 
 
-def manager(option):
-    if option == 1:
-        print(read_files_from_dir())
-    if option == 2:
-        add_new_entry()
-    if option == 3:
-        print("Available files: ")
-        print(read_files_from_dir())
-        print(read_directory_content(read_files_from_dir()))
+# def manager(option):
+#     if option == 1:
+#         print(read_files_from_dir())
+#     if option == 2:
+#         add_new_entry()
+#     if option == 3:
+#         print("Available files: ")
+#         print(read_files_from_dir())
+#         print(read_directory_content(read_files_from_dir()))
 
+# TODO - GET FILE CONTENT, DECRYPT, SAVE
 def decrypt_file():
     pass
 
 def main():
-    display_menu()
-    option = int(input("Select action: "))
-    manager(option)
+    # display_menu()
+    # option = int(input("Select action: "))
+    # manager(option)
+    text = CipherText("rot13", "ala ma kota")
+    m = TextManager(text)
+    m.manager(1)
 
     #TODO read ciphertext/plaintext from file and decrypt/encrypt it
 
