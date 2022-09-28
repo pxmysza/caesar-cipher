@@ -11,6 +11,9 @@ class CipherText:
         self.cipher_type = cipher_type
         self.plaintext = plaintext
 
+    def __str__(self):
+        return f"Cipher: {self.get_cipher()}, text: {self.get_plaintext()}"
+
     def get_cipher(self):
         return self.cipher_type
 
@@ -19,26 +22,19 @@ class CipherText:
 
 
 class TextManager:
-    def __init__(self, text: CipherText):
-        self.text = text
 
     def manager(self, user_choice: int) -> None:
         if user_choice == 1:
             self.__add_new_entry()
-        #     if user_choice == 2:
-        #         add_new_entry()
-        #     if user_choice == 3:
-        #         print("Available files: ")
-        #         print(read_files_from_dir())
-        #         print(read_directory_content(read_files_from_dir()))
+        # TODO view files, decrypt text from file, quit
 
-    def serializer(self, text: CipherText) -> str:
+    def __serializer(self, text: CipherText) -> str:
         if text.get_cipher() == "rot13":
-            return self._serialize_to_json(text.get_plaintext(), 13)
+            return self.__serialize_to_json(text.get_plaintext(), 13)
         if text.get_cipher() == "rot47":
-            return self._serialize_to_json(text.get_plaintext(), 47)
+            return self.__serialize_to_json(text.get_plaintext(), 47)
 
-    def _serialize_to_json(self, plaintext, cipher_mode: int) -> str:
+    def __serialize_to_json(self, plaintext, cipher_mode: int) -> str:
         payload = {
             "type": "rot13" if cipher_mode == 13 else "rot47",
             "word": self.__rot_n(plaintext, cipher_mode),
@@ -76,19 +72,22 @@ class TextManager:
                     # Should I here create new CipherText and work on this object????
                     plain, cipher_num = self.__decrypt_from_file(filename)
                     text = CipherText(cipher_num, plain + text_to_append)
-                    json_object = self.serializer(text)
+                    json_object = self.__serializer(text)
                     self.__save_to_file(json_object, filename)
                     break
                 if reply == "o":
-                    text_to_save = input("Enter text to append: ")
+                    plain = input("Enter text: ")
                     cipher_num = input("'rot13' or 'rot47': ")
-                    text = CipherText(cipher_num, text_to_save)
-                    json_object = self.serializer(text)
+                    text = CipherText(cipher_num, plain)
+                    json_object = self.__serializer(text)
                     self.__save_to_file(json_object, filename)
                     break
         else:
-            # TODO if file does not exist, encrypt and save
-            pass
+            plain = input("Enter text: ")
+            cipher_num = input("'rot13' or 'rot47': ")
+            text = CipherText(cipher_num, plain)
+            json_object = self.__serializer(text)
+            self.__save_to_file(json_object, filename)
 
     def __decrypt_from_file(self, filename: str) -> tuple:
         with open(JSON_PATH + "/" + filename) as json_file:
