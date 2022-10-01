@@ -43,12 +43,12 @@ class Manager:
                 self.buffer.clear_buffer()
 
     def __validate_type(self, cipher_type: str) -> str:
-        if cipher_type != "rot13" or cipher_type != "rot47":
+        if cipher_type != "rot13" and cipher_type != "rot47":
             raise ValueError("Incorrect value! Must be 'rot13' or 'rot47'")
         return cipher_type
 
     def __validate_is_encrypted(self, is_encrypted: str):
-        if is_encrypted != "y" or is_encrypted != "n":
+        if is_encrypted != "y" and is_encrypted != "n":
             raise TypeError("Incorrect answer! Must be 'y' or 'n'")
         if is_encrypted == "y":
             return "encrypted"
