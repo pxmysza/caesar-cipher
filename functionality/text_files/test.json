@@ -1,5 +1,4 @@
 {
-    "type": "rot13",
-    "word": "nfqs",
-    "status": "encrypted"
+    "cipher type": "rot13",
+    "cipher text": "nfqs"
 }
