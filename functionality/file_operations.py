@@ -10,11 +10,22 @@ class FileHandler:
         pass
 
     @staticmethod
-    def save_sentence_to_file(self):
-        pass
+    def read_file_content(filename: str):
+        with open(JSON_PATH + "/" + filename, mode='r') as f:
+            data = json.load(f)
+            return data
 
-    def read_file_content(self):
-        pass
+    @staticmethod
+    def save_to_file(filename: str, dict_obj: dict):
+        with open(JSON_PATH + "/" + filename, mode='w') as f:
+            json.dump(dict_obj, f, indent=4)
+
+    @staticmethod
+    def file_exists(filename: str) -> bool:
+        """Returns 'true' if file exists in directory"""
+        if filename in [file for file in os.listdir(JSON_PATH)]:
+            return True
+        return False
 
     @staticmethod
     def read_all_files() -> dict:

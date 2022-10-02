@@ -11,7 +11,7 @@ class JsonConverter:
             "text": text.text,
             "status": text.status
         }
-        return json.dumps(payload, indent=4)
+        return payload
 
     @staticmethod
     def convert_from_json(text: dict) -> Sentence:

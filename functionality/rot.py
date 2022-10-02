@@ -12,7 +12,7 @@ class Rot(ABC):
         return self.__text
 
     @abstractmethod
-    def encode(self, text: str) -> str:
+    def encode(self) -> str:
         """Caesar cipher is reversible, the same function
         is being used both for encryption and decryption"""
         pass
@@ -27,11 +27,10 @@ class Rot(ABC):
 class Rot47(Rot):
     def __init__(self, text: str):
         super().__init__(text)
-        self._cipher_type: str = "rot47"
 
-    def encode(self, text: str) -> str:
+    def encode(self) -> str:
         res = ""
-        for t in text:
+        for t in self.text:
             if ord(t) == 32:
                 res += t
             if 33 <= ord(t) <= 126:
@@ -42,11 +41,10 @@ class Rot47(Rot):
 class Rot13(Rot):
     def __init__(self, text: str):
         super().__init__(text)
-        self._cipher_type: str = "rot13"
 
-    def encode(self, text: str) -> str:
+    def encode(self) -> str:
         res = ""
-        for t in text:
+        for t in self.text:
             if ord(t) == 32:
                 res += t
             if 97 <= ord(t) <= 122:
