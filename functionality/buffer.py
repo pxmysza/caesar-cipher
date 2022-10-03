@@ -14,12 +14,14 @@ class Buffer:
     def delete_from_buffer(self, num: int) -> None:
         self.__buffer.pop(num)
 
-    def display_buffer(self) -> None:
+    def display_buffer(self) -> str:
+        content = ""
         if len(self.__buffer) == 0:
-            print("Buffer is empty")
+            return "Buffer is empty"
         else:
             for i in range(len(self.__buffer)):
-                print(f"{i + 1}: {self.__buffer[i]}")
+                content += f"{i + 1}: {self.__buffer[i]}\n"
+        return content.rstrip()
 
     def clear_buffer(self) -> None:
         self.__buffer = []

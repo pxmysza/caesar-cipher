@@ -7,7 +7,8 @@ class Menu:
                    "3. Save buffer to file\n" \
                    "4. Read file content\n" \
                    "5. Display buffer\n" \
-                   "6. Quit\n" \
+                   "6. Clear buffer\n" \
+                   "7. Quit\n" \
                    "#################"
         print(menu_str)
 
