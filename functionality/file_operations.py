@@ -6,10 +6,6 @@ JSON_PATH = "functionality/text_files"
 class FileHandler:
 
     @staticmethod
-    def save_buffer_to_file(buffer: Buffer):
-        pass
-
-    @staticmethod
     def read_file_content(filename: str):
         with open(JSON_PATH + "/" + filename, mode='r') as f:
             data = json.load(f)

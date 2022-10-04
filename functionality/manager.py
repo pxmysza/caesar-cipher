@@ -20,25 +20,55 @@ class Manager:
         }
 
     def run(self) -> None:
-        while True:
+        should_quit = True
+        while should_quit:
             Menu.display_menu()
             choice = input("What would you like to do?: ")
             if choice not in self.functions_dict.keys():
                 print("Incorrect choice!")
+            elif choice == "7":
+                should_quit = self.__quit()
             else:
                 self.functions_dict[choice]()
-            if choice == "7":
-                break
-
-    def __display_buffer_content(self):
-        print(self.buffer.display_buffer())
 
     def __add_to_buffer(self):
         """Adds another word to buffer"""
         word = input("Enter text: ")
         self.buffer.add_to_buffer(word)
 
-    def __display_file_content(self):
+    def __save(self):
+        """This method saves buffer or a part of buffer to file
+        If file exists, user is asked whether to overwrite or append to a file"""
+        if not self.buffer.is_empty():
+            print("Buffer is empty")
+        else:
+            what_to_save = input("Do you want to save the entire buffer or just a word/sentence? (type 'all' or 'word'): ")
+            if what_to_save == "all":
+                try:
+                    text = self.buffer.convert_buffer_to_text()
+                    filename = input("Enter file name: ")
+                    self.__save_buffer_to_file(text, filename)
+                except Exception as e:
+                    print(e)
+                else:
+                    self.buffer.clear_buffer()
+                    print("Buffer was cleared")
+            elif what_to_save == "word":
+                print(f"Buffer content:\n{self.buffer.display_buffer()}")
+                try:
+                    num = self.__validate_if_elem_exists(int(input("What word would you like to save? Enter number: ")))
+                    text = self.buffer.take_word_from_buffer(num - 1)
+                    filename = input("Enter file name: ")
+                    self.__save_buffer_to_file(text, filename)
+                except Exception as e:
+                    print(e)
+                else:
+                    deleted = self.buffer.delete_from_buffer(num)
+                    print(f"{deleted} was deleted from buffer")
+            else:
+                print("Incorrect choice!")
+
+    def __display_file_content(self) -> None:
         """Method that displays all files in a directory"""
         FileHandler.display_all_files()
         filename = input("Enter file name: ")
@@ -47,6 +77,35 @@ class Manager:
             print(JsonConverter.convert_from_json(s_obj))
         else:
             print("Could not display file content. Incorrect name?")
+
+    def __display_buffer_content(self) -> None:
+        print(self.buffer.display_buffer())
+
+    def __quit(self) -> bool:
+        if self.buffer.is_empty():
+            should_save = input("Buffer is not empty, do you want to save or discard changes? "
+                                "type 'save' or 'discard': ").lower()
+            try:
+                should_save = self.__validate_should_save(should_save)
+            except ValueError as e:
+                print(e)
+                return True
+            else:
+                if should_save == "save":
+                    self.__save()
+                else:
+                    self.buffer.clear_buffer()
+                    return False
+
+    def __save_buffer_to_file(self, text: str, filename: str):
+        if FileHandler.file_exists(filename):
+            overwrite = self.__validate_choice(input("File already exists. Do you want to overwrite it? (y/n): ").lower())
+            if overwrite == "y":
+                self.__save_text_and_override(text, filename)
+            else:
+                self.__save_text_and_append(text, filename)
+        else:
+            self.__create_new_file(filename, text)
 
     def __save_text_and_override(self, text: str, filename: str):
         """Method that overwrites existing file. User is asked if text shuld be encrypted or not"""
@@ -82,36 +141,6 @@ class Manager:
             s_json = JsonConverter.convert_to_json(s)
             FileHandler.save_to_file(filename, s_json)
 
-    def __save_buffer_to_file(self, text: str, filename: str) -> None:
-        if FileHandler.file_exists(filename):
-            overwrite = self.__validate_choice(input("File already exists. Do you want to overwrite it? (y/n): ").lower())
-            if overwrite == "y":
-                self.__save_text_and_override(text, filename)
-            else:
-                self.__save_text_and_append(text, filename)
-        else:
-            self.__create_new_file(filename, text)
-
-    def __save(self):
-        """This method saves buffer or a part of buffer to file
-        If file exists, user is asked whether to overwrite or append to a file"""
-        what_to_save = input("Do you want to save the entire buffer or just a word/sentence? (type 'all' or 'word'): ")
-        if what_to_save == "all":
-            text = self.buffer.convert_buffer_to_text()
-            filename = input("Enter file name: ")
-            self.__save_buffer_to_file(text, filename)
-            self.buffer.clear_buffer()
-            print("Buffer was cleared")
-        elif what_to_save == "word":
-            print(f"Buffer content: {self.buffer.display_buffer()}")
-            num = int(input("What word would you like to save? Enter number: "))
-            text = self.buffer.take_word_from_buffer(num - 1)
-            filename = input("Enter file name: ")
-            self.__save_buffer_to_file(text, filename)
-            deleted = self.buffer.delete_from_buffer(num)
-            print(f"{deleted} was deleted from buffer")
-        else:
-            print("Incorrect choice!")
 
     def __create_new_file(self, filename: str, text: str):
         """Create new file and save json object to it"""
@@ -127,15 +156,13 @@ class Manager:
         s_json = JsonConverter.convert_to_json(s)
         FileHandler.save_to_file(filename, s_json)
 
-    def __quit(self) -> None:
-        if self.buffer.is_empty():
-            should_save = input("Buffer is not empty, do you want to save or discard changes? "
-                                "type 'save' or 'discard': ").lower()
-            should_save = self.__validate_should_save(should_save)
-            if should_save == "save":
-                FileHandler.save_buffer_to_file(self.buffer)
-            else:
-                self.buffer.clear_buffer()
+    def __validate_if_elem_exists(self, num: int) -> int:
+        if not isinstance(num, int):
+            raise ValueError("Value must be integer!")
+        if num < 0 or num > self.buffer.get_elements_num():
+            raise ValueError("Out of range!")
+        return num
+
 
     def __validate_type(self, cipher_type: str) -> str:
         if cipher_type != "rot13" and cipher_type != "rot47":

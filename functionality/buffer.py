@@ -1,9 +1,12 @@
-from functionality.sentence import Sentence
+from typing import Any
 
 
 class Buffer:
     def __init__(self):
         self.__buffer = []
+
+    def get_elements_num(self) -> int:
+        return len(self.__buffer)
 
     def convert_buffer_to_text(self):
         return " ".join(self.__buffer)
@@ -11,8 +14,8 @@ class Buffer:
     def add_to_buffer(self, text: str) -> None:
         self.__buffer.append(text)
 
-    def delete_from_buffer(self, num: int) -> None:
-        self.__buffer.pop(num)
+    def delete_from_buffer(self, num: int) -> Any:
+        return self.__buffer.pop(num)
 
     def display_buffer(self) -> str:
         content = ""
@@ -26,8 +29,9 @@ class Buffer:
     def clear_buffer(self) -> None:
         self.__buffer = []
 
-    def is_empty(self):
+    def is_empty(self) -> int:
         return len(self.__buffer)
 
     def take_word_from_buffer(self, num: int):
-        return self.__buffer.pop(num)
+        return self.__buffer[num]
+
