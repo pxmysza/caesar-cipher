@@ -18,7 +18,8 @@ class Rot(ABC):
         pass
 
     def shift_by_key(self, start: str, char: str, shift: int, alph_len: int):
-        """universal function, works for ROT13 and ROT47, returns shifted character"""
+        """universal function, works for ROT13 and ROT47, returns character
+        shifted by a given number"""
         val = ord(char) - ord(start)
         val = (val + shift) % alph_len
         return chr(ord(start) + val)

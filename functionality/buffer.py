@@ -2,13 +2,13 @@ from typing import Any
 
 
 class Buffer:
-    def __init__(self):
+    def __init__(self) -> None:
         self.__buffer = []
 
     def get_elements_num(self) -> int:
         return len(self.__buffer)
 
-    def convert_buffer_to_text(self):
+    def convert_buffer_to_text(self) -> str:
         return " ".join(self.__buffer)
 
     def add_to_buffer(self, text: str) -> None:
@@ -30,8 +30,9 @@ class Buffer:
         self.__buffer = []
 
     def is_empty(self) -> int:
+        """Returns '0' if buffer is empty"""
         return len(self.__buffer)
 
-    def take_word_from_buffer(self, num: int):
+    def take_word_from_buffer(self, num: int) -> Any:
         return self.__buffer[num]
 

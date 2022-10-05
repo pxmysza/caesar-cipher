@@ -1,5 +1,6 @@
 from typing import Optional
 
+
 class Sentence:
     def __init__(self, cipher_type: str, text: str, status: Optional[str] = "decrypted"):
         self.cipher_type = cipher_type

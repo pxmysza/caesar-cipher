@@ -1,4 +1,5 @@
 from functionality.sentence import Sentence
+from typing import Any
 import json
 
 
@@ -14,7 +15,7 @@ class JsonConverter:
         return payload
 
     @staticmethod
-    def convert_from_json(text: dict) -> Sentence:
+    def convert_from_json(text: Any) -> Sentence:
         """Converts 'json' object to 'Sentence' object"""
         s = Sentence(text["cipher_type"], text["text"], text["status"])
         return s
