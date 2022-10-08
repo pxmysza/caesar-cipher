@@ -2,7 +2,7 @@ import json
 import os
 from typing import Any
 from functionality.rot_factory import RotFactory
-JSON_PATH = "functionality/text_files"
+JSON_PATH = "/home/pawel/python_projects/caesar-cipher/functionality/text_files"
 
 
 class FileHandler:
