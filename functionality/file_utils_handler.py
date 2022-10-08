@@ -8,6 +8,8 @@ from functionality.json_converter import JsonConverter
 class FileUtils:
     @staticmethod
     def save_buffer_to_file(text: str, filename: str):
+        """Main method that saves to a file. If file already exists it invokes a methods
+        that can append or overwrite file. If file does not exist it creates one"""
         if FileHandler.file_exists(filename):
             overwrite = Validator.validate_choice(
                 input("File already exists. Do you want to overwrite it? (y/n): ").lower())

@@ -4,6 +4,7 @@ from functionality.file_operations import FileHandler
 from functionality.json_converter import JsonConverter
 from functionality.file_utils import SaveBufferUtils
 from functionality.validators import Validator
+from functionality.buffer_utils import BufferUtil
 
 
 class Manager:
@@ -16,6 +17,9 @@ class Manager:
             "4": self.__display_file_content,
             "5": self.__display_buffer_content,
             "6": self.buffer.clear_buffer,
+            "7": self.__read_file_to_buffer,
+            "8": self.__display_decrypted_file_content,
+            "9": self.__display_encrypted_buffer,
             "99": self.__quit
         }
 
@@ -69,8 +73,39 @@ class Manager:
         """Method to display buffer content"""
         print(self.buffer.display_buffer())
 
+    def __read_file_to_buffer(self) -> None:
+        """Loads text from file to buffer"""
+        FileHandler.display_all_files(),
+        filename = input("Enter file name: ")
+        if FileHandler.file_exists(filename):
+            BufferUtil.load_file_to_buffer(filename, self.buffer)
+        else:
+            print("Could not read file content. Incorrect name?")
+
+    def __display_decrypted_file_content(self) -> None:
+        """Displays decrypted file content"""
+        FileHandler.display_all_files(),
+        filename = input("Enter file name: ")
+        if FileHandler.file_exists(filename):
+            FileHandler.decrypt_file_content(filename)
+        else:
+            print("Could not read file content. Incorrect name?")
+
+    def __display_encrypted_buffer(self):
+        """Displays buffer item after encryption/decryption. Cipher mode is entered by user"""
+        print(f"Buffer content:\n{self.buffer.display_buffer()}")
+        try:
+            num = int(input("What word would you like to encrypt/decrypt? Enter number: "))
+            cipher_type = Validator.validate_type(input("Enter cipher type: ").lower())
+            num = Validator.validate_if_elem_exists(num, self.buffer.get_elements_num())
+            text = self.buffer.take_word_from_buffer(num - 1)
+        except ValueError as e:
+            print(e)
+        else:
+            BufferUtil.buffer_enciphering(cipher_type, text)
+
     def __quit(self) -> bool:
-        """Method that quits program if right option was chosen by user.
+        """Quits program if right option was chosen by user.
         If buffer is not empty it can invoke 'save' method to save buffer or its part"""
         if self.buffer.is_empty():
             should_save = input("Buffer is not empty, do you want to save or discard changes? "
