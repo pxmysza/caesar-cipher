@@ -4,12 +4,12 @@ from functionality.file_operations import FileHandler
 
 class BufferUtil:
     @staticmethod
-    def buffer_enciphering(cipher_type: str, text: str) -> None:
+    def buffer_enciphering(cipher_type: str, text: str) -> tuple:
         """Displays encrypted (if item is decrypted)
         or decrypted (if item is encrypted) text"""
         cipher = RotFactory.get_rot(cipher_type, text)
         decoded_text = cipher.encode()
-        print(f"Original text: {text}\nAfter cipher operation: {decoded_text}")
+        return text, decoded_text
 
     @staticmethod
     def load_file_to_buffer(filename: str, obj: 'Buffer') -> None:

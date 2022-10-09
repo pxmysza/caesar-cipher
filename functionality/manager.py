@@ -6,6 +6,7 @@ from functionality.file_utils import SaveBufferUtils
 from functionality.validators import Validator
 from functionality.buffer_utils import BufferUtil
 
+PROMPT_FOR_FILENAME = "Enter file name: "
 
 class Manager:
     def __init__(self):
@@ -62,7 +63,7 @@ class Manager:
     def __display_file_content(self) -> None:
         """Displays all files in a directory"""
         FileHandler.display_all_files()
-        filename = input("Enter file name: ")
+        filename = input(PROMPT_FOR_FILENAME)
         if FileHandler.file_exists(filename):
             s_obj = FileHandler.read_file_content(filename)
             print(JsonConverter.convert_from_json(s_obj))
@@ -76,7 +77,7 @@ class Manager:
     def __read_file_to_buffer(self) -> None:
         """Loads text from file to buffer"""
         FileHandler.display_all_files(),
-        filename = input("Enter file name: ")
+        filename = input(PROMPT_FOR_FILENAME)
         if FileHandler.file_exists(filename):
             BufferUtil.load_file_to_buffer(filename, self.buffer)
         else:
@@ -85,9 +86,10 @@ class Manager:
     def __display_decrypted_file_content(self) -> None:
         """Displays decrypted file content"""
         FileHandler.display_all_files(),
-        filename = input("Enter file name: ")
+        filename = input(PROMPT_FOR_FILENAME)
         if FileHandler.file_exists(filename):
-            FileHandler.decrypt_file_content(filename)
+            decrypted = FileHandler.decrypt_file_content(filename)
+            print(f"Decrypted text: {decrypted}")
         else:
             print("Could not read file content. Incorrect name?")
 
@@ -102,7 +104,8 @@ class Manager:
         except ValueError as e:
             print(e)
         else:
-            BufferUtil.buffer_enciphering(cipher_type, text)
+            original, decoded = BufferUtil.buffer_enciphering(cipher_type, text)
+            print(f"Original text: {original}\nAfter cipher operation: {decoded}")
 
     def __quit(self) -> bool:
         """Quits program if right option was chosen by user.

@@ -49,13 +49,14 @@ class FileHandler:
             print(f"{key}: {value}")
 
     @staticmethod
-    def decrypt_file_content(filename: str) -> None:
+    def decrypt_file_content(filename: str) -> str:
         s_obj = FileHandler.read_file_content(filename)
         if s_obj["status"] == "decrypted":
-            print(f"Decrypted text: {s_obj['text']}")
+            return s_obj['text']
         else:
             cipher = s_obj["cipher_type"]
             text = s_obj["text"]
             cipher = RotFactory.get_rot(cipher, text)
             text = cipher.encode()
-            print(f"Decrypted text: {text}")
+            return text
+

@@ -31,7 +31,7 @@ class Buffer:
         return content.rstrip()
 
     def clear_buffer(self) -> None:
-        self.__buffer = []
+        self.buffer.clear()
 
     def is_empty(self) -> int:
         """Returns '0' if buffer is empty"""
