@@ -4,7 +4,7 @@ class Validator:
     def validate_if_elem_exists(num: int, no_of_buffer_elements: int) -> int:
         """Validates if element number is correct. If not raises ValueError"""
         if not isinstance(num, int):
-            raise ValueError("Value must be integer!")
+            raise TypeError("Value must be integer!")
         if num < 0 or num > no_of_buffer_elements:
             raise ValueError("Out of range!")
         return num

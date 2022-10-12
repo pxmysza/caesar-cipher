@@ -25,9 +25,22 @@ F
 testing/test_buffer.py,3/5/358b71a7d5829f7a12f7c4e88c1ea487694aa2b2
 L
 testing/test_buffer_utils.py,e/4/e4153c7f747ed4b62b3d60bcd30dff2ca6401ad1
-H
-functionality/manager.py,e/9/e9b3dc75d84162df8fd5c1224d72baced389f14c
 G
 functionality/buffer.py,7/f/7f0e19ae57a59727d1f82ecc545a75583751b4a9
 O
 testing/test_file_operations.py,f/0/f0414082a6297b78587cf1fd9add2b8104da7269
+K
+functionality/file_utils.py,c/1/c11318e7b13184880b401b4117b2b532660617f1
+P
+ functionality/file_operations.py,5/3/53dd399d107e4c24168bd5fbee097160a47e6464
+:
+
+.gitignore,a/5/a5cc2925ca8258af241be7e5b0381edf30266302
+S
+#functionality/file_utils_handler.py,9/4/9454647ed588b613927db382c34d46b313d58e76
+J
+testing/test_file_utils.py,c/7/c7207ff6321f6643661cc7680b047f8f718a6833
+O
+functionality/json_converter.py,1/6/165966eac4e8ad7eb6b5e5860a46b68ddef1f141
+I
+functionality/sentence.py,d/f/dff8e1e98f9250072715a4ab61cb2cca74c7533f
