@@ -22,7 +22,7 @@ class Validator:
         """Validates if user input equals to 'save' or 'discard' string
         Other values are not allowed - ValueError is raised"""
         if choice != "save" and choice != "discard":
-            raise ValueError("Incorrect input")
+            raise ValueError("Incorrect input, type 'save' or 'discard'!")
         return choice
 
     @staticmethod
@@ -37,5 +37,11 @@ class Validator:
     @staticmethod
     def validate_choice(choice):
         if choice != "y" and choice != "n":
-            raise TypeError("Incorrect answer! Must be 'y' or 'n'")
+            raise ValueError("Incorrect answer! Must be 'y' or 'n'")
         return choice
+
+    @staticmethod
+    def validate_is_digit(num):
+        if not isinstance(num, int):
+            raise TypeError("Must be integer!")
+        return num

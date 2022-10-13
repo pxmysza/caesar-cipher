@@ -1,8 +1,4 @@
-from unittest.mock import patch
-
 import pytest
-
-import functionality.file_utils_handler
 from functionality.buffer import Buffer
 from unittest import mock
 
@@ -30,23 +26,28 @@ class TestBuffer:
         expected_after = 3
         before = instance.get_elements_num()
         instance.add_to_buffer("trzy")
-        after = instance.get_elements_num()
         assert before == expected_before
         assert expected_after == expected_after
 
-    def test_if_correctly_displays_buffer(self, instance):
-        expected_before = "Buffer is empty"
-        expected_after = "1: test"
-        assert instance.display_buffer() == expected_before
+    def test_if_correctly_displays_buffer(self, capsys, instance):
+        expected_before = "Buffer is empty\n\n"
+        instance.display_buffer()
+        out1, err1 = capsys.readouterr()
+        expected_after = "1: test\n"
         instance.add_to_buffer("test")
-        assert instance.display_buffer() == expected_after
+        instance.display_buffer()
+        out, err = capsys.readouterr()
+        assert out1 == expected_before
+        assert out == expected_after
 
     def test_if_clears_buffer(self, instance, buffer_patcher):
         expected = 0
         instance.clear_buffer()
         assert instance.get_elements_num() == expected
 
-    def test_if_returns_zero_if_buffer_empty(self, instance, buffer_patcher):
+    @mock.patch("builtins.input", create=True)
+    def test_if_returns_zero_if_buffer_empty(self, mocked_input, instance, buffer_patcher):
+        mocked_input.side_effect = ["y"]
         expected = 0
         instance.clear_buffer()
         actual = instance.is_empty()

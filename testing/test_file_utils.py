@@ -16,7 +16,7 @@ class TestSaveBufferUtils:
 
     @pytest.fixture
     def mock_path(self, mocker):
-        return mocker.patch.object(functionality.file_operations, 'JSON_PATH',
+        return mocker.patch.object(functionality.file_operations, 'FILE_PATH',
                                    "/home/pawel/python_projects/caesar-cipher/testing/test_files")
 
     @pytest.fixture

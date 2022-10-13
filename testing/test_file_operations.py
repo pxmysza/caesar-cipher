@@ -10,7 +10,7 @@ class TestFileHandler:
 
     @pytest.fixture
     def mock_path(self, mocker):
-        return mocker.patch.object(functionality.file_operations, 'JSON_PATH',
+        return mocker.patch.object(functionality.file_operations, 'FILE_PATH',
                                    "/home/pawel/python_projects/caesar-cipher/testing/test_files")
 
     def gen_filename(self):
@@ -26,7 +26,7 @@ class TestFileHandler:
         assert expected == actual
 
     def test_if_incorrect_path_throws_error(self, mocker):
-        mocker.patch.object(functionality.file_operations, 'JSON_PATH', "/home/pawel/python_projects/path/that/doesnt/exists")
+        mocker.patch.object(functionality.file_operations, 'FILE_PATH', "/home/pawel/python_projects/path/that/doesnt/exists")
         expected = {
             "cipher_type": "rot47",
             "text": "D57D52D57E6DE",

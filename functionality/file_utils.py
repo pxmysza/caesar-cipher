@@ -10,7 +10,7 @@ class SaveBufferUtils:
             filename = input("Enter file name: ")
             FileUtils.save_buffer_to_file(text, filename)
         except (TypeError, ValueError) as e:
-            raise
+            raise e("Problem with filename check it!")
         else:
             obj.clear_buffer()
             print("Buffer was cleared")
@@ -25,7 +25,7 @@ class SaveBufferUtils:
             filename = input("Enter file name: ")
             FileUtils.save_buffer_to_file(text, filename)
         except (TypeError, ValueError) as e:
-            raise
+            raise e
         else:
             deleted = obj.delete_from_buffer(num - 1)
             print(f"{deleted} was deleted from buffer")

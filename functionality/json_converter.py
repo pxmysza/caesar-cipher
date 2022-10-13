@@ -5,7 +5,7 @@ import json
 
 class JsonConverter:
     @staticmethod
-    def convert_to_json(text: Sentence):
+    def convert_to_dict(text: Sentence):
         """Converts 'Sentence' object to 'json'"""
         payload = {
             "cipher_type": text.cipher_type,

@@ -1,5 +1,5 @@
 from typing import Any
-
+from functionality.validators import Validator
 
 class Buffer:
     def __init__(self) -> None:
@@ -21,14 +21,14 @@ class Buffer:
     def delete_from_buffer(self, num: int) -> Any:
         return self.buffer.pop(num)
 
-    def display_buffer(self) -> str:
+    def display_buffer(self) -> None:
         content = ""
         if len(self.buffer) == 0:
-            return "Buffer is empty"
+            print("Buffer is empty")
         else:
             for i in range(len(self.buffer)):
                 content += f"{i + 1}: {self.buffer[i]}\n"
-        return content.rstrip()
+        print(content.rstrip())
 
     def clear_buffer(self) -> None:
         self.buffer.clear()

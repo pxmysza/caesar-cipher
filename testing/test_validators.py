@@ -65,7 +65,7 @@ class TestValidator:
     @pytest.mark.parametrize("test_params", [(["yes", "sd", 234])])
     def test_validate_choice_throws_error_when_incorrect_argument(self, test_params):
         for par in test_params:
-            with pytest.raises(TypeError):
+            with pytest.raises(ValueError):
                 Validator.validate_choice(par)
 
     @pytest.mark.validate_choice

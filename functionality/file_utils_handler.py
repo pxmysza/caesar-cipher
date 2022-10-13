@@ -35,7 +35,7 @@ class FileUtils:
                 text = rot.encode()
                 encryption_status = "encrypted"
         s = Sentence(cipher_type, text, encryption_status)
-        s_json = JsonConverter.convert_to_json(s)
+        s_json = JsonConverter.convert_to_dict(s)
         FileHandler.save_to_file(filename, s_json)
 
     @staticmethod
@@ -50,11 +50,11 @@ class FileUtils:
             s_obj.text += text_to_append
             rot = RotFactory.get_rot(s_obj.cipher_type, s_obj.text)
             s_obj.text = rot.encode()
-            s_json = JsonConverter.convert_to_json(s_obj)
+            s_json = JsonConverter.convert_to_dict(s_obj)
             FileHandler.save_to_file(filename, s_json)
         else:
             s_obj.text += text_to_append
-            s_json = JsonConverter.convert_to_json(s_obj)
+            s_json = JsonConverter.convert_to_dict(s_obj)
             FileHandler.save_to_file(filename, s_json)
 
     @staticmethod
@@ -69,5 +69,5 @@ class FileUtils:
         else:
             encryption_status = "decrypted"
         s = Sentence(cipher_type, text, encryption_status)
-        s_json = JsonConverter.convert_to_json(s)
+        s_json = JsonConverter.convert_to_dict(s)
         FileHandler.save_to_file(filename, s_json)

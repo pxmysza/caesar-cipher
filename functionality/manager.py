@@ -16,7 +16,7 @@ class Manager:
             "2": self.__add_to_buffer,
             "3": self.__save,
             "4": self.__display_file_content,
-            "5": self.__display_buffer_content,
+            "5": self.buffer.display_buffer,
             "6": self.buffer.clear_buffer,
             "7": self.__read_file_to_buffer,
             "8": self.__display_decrypted_file_content,
@@ -55,7 +55,8 @@ class Manager:
                 text = self.buffer.convert_buffer_to_text()
                 SaveBufferUtils.save_whole_buffer(text, self.buffer)
             elif what_to_save == "word":
-                print(f"Buffer content:\n{self.buffer.display_buffer()}")
+                print(f"Buffer content:\n")
+                self.buffer.display_buffer()
                 SaveBufferUtils.save_word_from_buffer(self.buffer)
             else:
                 print("Incorrect choice!")
@@ -69,10 +70,6 @@ class Manager:
             print(JsonConverter.convert_from_json(s_obj))
         else:
             print("Could not display file content. Incorrect name?")
-
-    def __display_buffer_content(self) -> None:
-        """Method to display buffer content"""
-        print(self.buffer.display_buffer())
 
     def __read_file_to_buffer(self) -> None:
         """Loads text from file to buffer"""
@@ -95,13 +92,16 @@ class Manager:
 
     def __display_encrypted_buffer(self):
         """Displays buffer item after encryption/decryption. Cipher mode is entered by user"""
-        print(f"Buffer content:\n{self.buffer.display_buffer()}")
+        print(f"Buffer content:\n")
+        self.buffer.display_buffer()
         try:
-            num = int(input("What word would you like to encrypt/decrypt? Enter number: "))
+            num = input("What word would you like to encrypt/decrypt? Enter number: ")
+            num = Validator.validate_is_digit(num)
             cipher_type = Validator.validate_type(input("Enter cipher type: ").lower())
             num = Validator.validate_if_elem_exists(num, self.buffer.get_elements_num())
             text = self.buffer.take_word_from_buffer(num - 1)
-        except ValueError as e:
+            # I'm printing 'error' only instead of catching it, custom message is in "validate_if_elem_exists" method
+        except (ValueError, TypeError) as e:
             print(e)
         else:
             original, decoded = BufferUtil.buffer_enciphering(cipher_type, text)
