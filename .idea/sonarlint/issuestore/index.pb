@@ -7,8 +7,6 @@ Y
 )functionality/text_files/second_file.json,2/4/24bf9ef4bbdac21a2ec7abf0648850195e6047be
 S
 #functionality/text_files/uwaga.json,1/4/14f57a1c50c7b56c6429bd62704f77f33fc1c36b
-Z
-*functionality/text_files/another_test.json,6/5/65ec8acfb5737165a73b3e88acdc0f0750d409a5
 S
 #functionality/text_files/third.json,0/2/025b9eb65d8aead6f40439dcafcbdd9162af52c4
 R
