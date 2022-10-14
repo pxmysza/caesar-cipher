@@ -1,6 +1,5 @@
 from functionality.sentence import Sentence
 from typing import Any
-import json
 
 
 class JsonConverter:
